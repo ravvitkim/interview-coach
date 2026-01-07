@@ -1,0 +1,18 @@
+name: interview-coach
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+    - fastapi==0.109.0
+    - uvicorn==0.27.0
+    - python-multipart==0.0.6
+    - opencv-python==4.9.0.80
+    - numpy==1.26.3
+    - deepface==0.0.79
+    - mediapipe==0.10.9
+    - tf-keras==2.15.0
+    - tensorflow==2.15.0
+    - pillow==10.2.0

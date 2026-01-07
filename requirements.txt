@@ -1,0 +1,46 @@
+# AI/ML 기본
+# Mac용
+# torch==2.2.0
+# torchaudio==2.2.0
+# torchvision==0.17.0
+--extra-index-url https://download.pytorch.org/whl/cu121
+torch>=2.6.0
+torchaudio>=2.6.0
+torchvision>=0.21.0
+transformers==4.44.0
+huggingface_hub>=0.19.0,<1.0
+accelerate>=0.30.0
+
+# 음성 처리
+librosa==0.10.1
+soundfile==0.12.1
+
+# 웹 서버
+gradio==4.31.0
+gradio-client==0.16.2
+fastapi==0.111.0
+uvicorn==0.29.0
+python-multipart==0.0.9
+markupsafe==2.1.5
+
+# TensorFlow 
+# Mac용
+# tensorflow-macos==2.15.1
+# tensorflow-metal==1.1.0
+# keras==2.15.0
+
+# Windows (위 3줄 주석처리 후 아래 2줄 사용)
+tensorflow==2.15.0
+keras==2.15.0
+
+protobuf==4.25.3
+
+# 비디오 분석 (TensorFlow 이후 설치)
+opencv-python==4.9.0.80
+deepface==0.0.89
+mtcnn==0.1.1
+mediapipe==0.10.13
+pillow==10.2.0
+
+# 기타
+numpy==1.26.4

@@ -1,108 +1,219 @@
-# AI 면접 코치 - 영상 분석
+#  AI 면접 코치
 
-영상 면접 시뮬레이션을 통해 표정, 시선, 자세를 분석하고 피드백을 제공합니다.
+## 프로젝트 소개
 
-## 분석 항목
+취업 면접 준비생을 위한 AI 기반 면접 연습 서비스입니다.  
+웹캠 영상을 분석하여 **표정, 시선, 자세** 등 비언어적 요소를 실시간으로 분석하고 개선 피드백을 제공합니다.
 
-| 항목 | 기술 | 분석 내용 |
-|------|------|-----------|
-| 표정 | DeepFace | 감정 분석 (긴장, 자신감, 미소) |
-| 시선 | MediaPipe FaceMesh | 카메라 응시 비율 |
-| 자세 | MediaPipe Pose | 자세 안정성, 손 제스처 |
+---
 
-## 프로젝트 구조
+##  기획 배경
+
+- 면접에서 **비언어적 커뮤니케이션**이 당락에 큰 영향을 미침
+- 혼자 연습할 때 객관적인 피드백을 받기 어려움
+- 기존 면접 코칭 서비스는 비용이 높고 접근성이 낮음
+
+→ **AI를 활용해 누구나 무료로 면접 태도를 점검할 수 있는 서비스** 기획
+
+---
+
+##  기술 스택
+
+| 구분 | 기술 |
+|------|------|
+| **Frontend** | React, TypeScript, Vite |
+| **Backend** | FastAPI (Python) |
+| **AI/ML** | DeepFace (표정 분석), MediaPipe (시선/자세 추적) |
+| **영상처리** | OpenCV |
+| **배포** | 로컬 환경 (추후 클라우드 배포 예정) |
+
+---
+
+##  주요 기능
+
+### 1. 표정 분석 (DeepFace)
+- 7가지 감정 분류 (happy, neutral, sad, angry, fear, surprise, disgust)
+- 면접에 적합한 표정 여부 피드백
+- 프레임별 감정 추이 분석 후 평균 산출
+
+### 2. 시선 추적 (MediaPipe FaceMesh)
+- 478개 얼굴 랜드마크 중 홍채 좌표 추출
+- 카메라 응시 비율 측정 (중앙 ±15% 범위 기준)
+- 시선 분산 시 개선 피드백 제공
+
+### 3. 자세 분석 (MediaPipe Pose)
+- 어깨 위치 추적으로 자세 안정성 측정
+- 손목 이동 거리로 제스처 빈도 분석
+- 과도한 움직임/경직된 자세 피드백
+
+### 4. 종합 리포트
+- 3개 항목 종합 점수 산출
+- 항목별 구체적인 개선 피드백 제공
+
+---
+
+##  분석 결과 예시
+
+```
+📊 분석 결과
+├─ 종합 점수: 82.5점
+├─ 🎭 표정: neutral (차분하고 안정적입니다 ✅)
+├─ 👀 시선: 78.5% (카메라를 잘 응시하고 있어요 ✅)
+├─ 🧍 자세: 85.2% (자세가 안정적이에요 ✅)
+└─ 🤚 제스처: 적당 (적절한 제스처입니다 ✅)
+```
+
+---
+
+## 🔧 시스템 아키텍처
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                      Frontend                           │
+│                  React + TypeScript                     │
+│         (웹캠 녹화, 결과 시각화, 사용자 인터페이스)         │
+└─────────────────────┬───────────────────────────────────┘
+                      │ 영상 업로드 (webm)
+                      ▼
+┌─────────────────────────────────────────────────────────┐
+│                      Backend                            │
+│                      FastAPI                            │
+│              (API 서버, 영상 처리 관리)                   │
+└─────────────────────┬───────────────────────────────────┘
+                      │
+        ┌─────────────┼─────────────┐
+        ▼             ▼             ▼
+┌─────────────┐ ┌─────────────┐ ┌─────────────┐
+│  DeepFace   │ │  MediaPipe  │ │  MediaPipe  │
+│  표정 분석   │ │  FaceMesh   │ │    Pose     │
+│             │ │  시선 추적   │ │  자세 분석   │
+└─────────────┘ └─────────────┘ └─────────────┘
+```
+
+---
+
+##  화면 구성
+
+### 1. 홈 화면
+- 서비스 소개 및 분석 항목 안내
+- 면접 코칭 시작 버튼
+
+### 2. 녹화 화면
+- 실시간 웹캠 미리보기
+- 녹화 시간 표시
+- 녹화 시작/중지/재촬영 기능
+
+### 3. 분석 중 화면
+- 로딩 애니메이션
+- 분석 진행 상태 안내
+
+### 4. 결과 화면
+- 종합 점수 (시각적 표시)
+- 항목별 상세 분석 카드
+- 개선 피드백 메시지
+
+---
+
+##  프로젝트 구조
 
 ```
 interview-coach/
-├── app.py                 # FastAPI 백엔드
-├── requirements.txt       # pip 의존성
-├── environment.yml        # conda 환경 설정
-├── README.md
+├── app.py                 # FastAPI 백엔드 서버
+├── requirements.txt       # Python 의존성
+├── environment.yml        # Conda 환경 설정
+│
 └── frontend/              # React 프론트엔드
+    ├── src/
+    │   ├── App.tsx        # 메인 컴포넌트
+    │   ├── App.css        # 스타일시트
+    │   └── main.tsx       # 엔트리 포인트
     ├── package.json
-    ├── vite.config.js
-    ├── index.html
-    └── src/
-        ├── main.jsx
-        ├── App.jsx
-        └── App.css
+    ├── tsconfig.json
+    └── vite.config.js
 ```
 
-## 설치 방법 (Conda)
+---
 
-### 1. Conda 환경 생성
+##  핵심 기술 구현
+
+### 표정 분석 로직
+```python
+from deepface import DeepFace
+
+result = DeepFace.analyze(frame, actions=['emotion'])
+# 출력: {'angry': 0.01, 'happy': 0.85, 'neutral': 0.1, ...}
+```
+- 영상에서 일정 간격으로 프레임 추출
+- 각 프레임에서 얼굴 감지 후 감정 분류
+- 전체 평균값으로 최종 감정 판단
+
+### 시선 추적 로직
+```python
+import mediapipe as mp
+
+# 홍채 중심 좌표 추출
+LEFT_IRIS = [474, 475, 476, 477]
+RIGHT_IRIS = [469, 470, 471, 472]
+
+# 화면 중앙과 비교하여 응시 여부 판단
+is_looking_center = abs(iris_x - center_x) < (img_width * 0.15)
+```
+
+### 자세 분석 로직
+```python
+# 어깨 위치 표준편차로 안정성 측정
+shoulder_std = np.std(shoulder_positions)
+stability = 100 - (shoulder_std * 500)
+
+# 손목 이동 거리로 제스처 빈도 측정
+movement = sqrt((현재x - 이전x)² + (현재y - 이전y)²)
+```
+
+---
+
+##  기대 효과
+
+| 효과 | 설명 |
+|------|------|
+| 객관적 피드백 | AI 기반 정량적 분석으로 객관적인 개선점 파악 |
+| 비용 절감 | 고가의 면접 코칭 서비스 대체 |
+| 접근성 향상 | 시간/장소 제약 없이 반복 연습 가능 |
+| 자신감 향상 | 사전 연습으로 실제 면접 긴장감 감소 |
+
+---
+
+##  향후 개선 계획
+
+- [ ] 음성 분석 추가 (Whisper STT + 말습관 분석)
+- [ ] 답변 내용 피드백 (GPT API 연동)
+- [ ] 면접 질문 생성 기능
+- [ ] 클라우드 배포 (AWS/GCP)
+- [ ] 분석 이력 저장 및 성장 추이 그래프
+
+---
+
+##  개발 정보
+
+| 항목 | 내용 |
+|------|------|
+| 개발 기간 | 4일 |
+| 개발 인원 | 1명 |
+| 개발 도구 | VS Code, Conda, Git |
+
+---
+
+##  실행 방법
+
 ```bash
-conda env create -f environment.yml
+# 1. 백엔드 실행
 conda activate interview-coach
-```
-
-### 2. 백엔드 서버 실행
-```bash
 python app.py
-# 서버: http://localhost:8000
-```
 
-### 3. 프론트엔드 실행 (새 터미널)
-```bash
+# 2. 프론트엔드 실행 (새 터미널)
 cd frontend
 npm install
 npm run dev
-# 앱: http://localhost:3000
+
+# 3. 브라우저 접속
+http://localhost:3000
 ```
-
-## API 사용법
-
-### 영상 분석
-```bash
-curl -X POST "http://localhost:8000/analyze" \
-  -H "Content-Type: multipart/form-data" \
-  -F "file=@interview.mp4"
-```
-
-### 응답 예시
-```json
-{
-  "emotion": {
-    "average_emotions": {
-      "happy": 15.2,
-      "neutral": 65.8,
-      "sad": 5.1,
-      "angry": 3.2,
-      "fear": 8.4,
-      "surprise": 1.8,
-      "disgust": 0.5
-    },
-    "dominant_emotion": "neutral",
-    "feedback": "차분하고 안정적입니다 ✅",
-    "samples_analyzed": 45
-  },
-  "gaze": {
-    "center_gaze_ratio": 78.5,
-    "feedback": "카메라를 잘 응시하고 있어요 ✅",
-    "samples_analyzed": 89
-  },
-  "posture": {
-    "posture_stability": 85.2,
-    "posture_feedback": "자세가 안정적이에요 ✅",
-    "hand_gesture_level": "적당",
-    "gesture_feedback": "적절한 제스처입니다 ✅",
-    "samples_analyzed": 89
-  },
-  "overall": {
-    "score": 82.5,
-    "feedback": "전반적으로 훌륭한 면접 태도입니다! 🎉"
-  }
-}
-```
-
-## 기술 스택
-
-- **Backend**: FastAPI
-- **AI Models**: DeepFace, MediaPipe
-- **Video Processing**: OpenCV
-
-## 주의사항
-
-- Python 3.10 권장 (3.12는 호환 이슈 가능)
-- 첫 실행 시 DeepFace 모델 다운로드로 시간 소요
-- GPU 있으면 더 빠름 (없어도 동작)

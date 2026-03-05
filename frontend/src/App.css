@@ -85,14 +85,14 @@ body {
 .main-content {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 2rem 2.5rem;
   flex: 1;
 }
 
 .grid-container {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
+  gap: 3rem;
 }
 
 @media (min-width: 1024px) {

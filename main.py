@@ -102,13 +102,13 @@ def analyze_emotions(video_path: str, sample_rate: int = 90) -> dict: # 60 -> 90
     dominant = max(avg_emotions, key=avg_emotions.get)
     
     emotion_feedback = {
-        "happy": "밝은 표정이 좋습니다 ✅",
-        "neutral": "차분하고 안정적입니다 ✅",
-        "sad": "조금 더 밝은 표정을 지어보세요 ⚠️",
-        "angry": "표정이 딱딱해 보일 수 있어요 ⚠️",
-        "fear": "긴장한 것처럼 보여요 ⚠️",
+        "happy": "밝은 표정이 좋습니다",
+        "neutral": "차분하고 안정적입니다",
+        "sad": "조금 더 밝은 표정을 지어보세요",
+        "angry": "표정이 딱딱해 보일 수 있어요",
+        "fear": "긴장한 것처럼 보여요",
         "surprise": "자연스러운 표정을 유지하세요",
-        "disgust": "표정 관리가 필요해요 ⚠️"
+        "disgust": "표정 관리가 필요해요"
     }
 
     return {
@@ -166,11 +166,11 @@ def analyze_gaze(video_path: str, sample_rate: int = 45) -> dict: # 15 -> 45 (1.
     center_ratio = sum(gaze_results) / len(gaze_results) * 100
     
     if center_ratio >= 70:
-        feedback = "카메라를 잘 응시하고 있어요 ✅"
+        feedback = "카메라를 잘 응시하고 있어요"
     elif center_ratio >= 50:
-        feedback = "카메라를 조금 더 바라봐주세요 ⚠️"
+        feedback = "카메라를 조금 더 바라봐주세요"
     else:
-        feedback = "시선이 많이 흔들려요. 카메라를 응시해주세요 ❌"
+        feedback = "시선이 많이 흔들려요. 카메라를 응시해주세요"
 
     return {
         "center_gaze_ratio": round(center_ratio, 1),
@@ -232,20 +232,20 @@ def analyze_posture(video_path: str, sample_rate: int = 60) -> dict: # 15 -> 60 
     avg_movement = np.mean(hand_movements) if hand_movements else 0
     if avg_movement > 0.05:
         gesture_level = "많음"
-        gesture_feedback = "손 제스처가 많아요. 조금 줄여보세요 ⚠️"
+        gesture_feedback = "손 제스처가 많아요. 조금 줄여보세요"
     elif avg_movement > 0.02:
         gesture_level = "적당"
-        gesture_feedback = "적절한 제스처입니다 ✅"
+        gesture_feedback = "적절한 제스처입니다"
     else:
         gesture_level = "적음"
-        gesture_feedback = "자연스러운 제스처를 추가해보세요 💡"
+        gesture_feedback = "자연스러운 제스처를 추가해보세요"
 
     if stability >= 80:
-        posture_feedback = "자세가 안정적이에요 ✅"
+        posture_feedback = "자세가 안정적이에요"
     elif stability >= 60:
-        posture_feedback = "자세가 약간 흔들려요 ⚠️"
+        posture_feedback = "자세가 약간 흔들려요"
     else:
-        posture_feedback = "자세를 고정하고 안정감을 유지하세요 ❌"
+        posture_feedback = "자세를 고정하고 안정감을 유지하세요"
 
     return {
         "posture_stability": round(stability, 1),
@@ -278,11 +278,11 @@ def analyze_interview_video(video_path: str) -> dict:
     overall_score = round(sum(scores) / len(scores), 1) if scores else 0
     
     if overall_score >= 80:
-        overall_feedback = "전반적으로 훌륭한 면접 태도입니다! 🎉"
+        overall_feedback = "전반적으로 훌륭한 면접 태도입니다!"
     elif overall_score >= 60:
-        overall_feedback = "좋은 편이지만 개선할 부분이 있어요 💪"
+        overall_feedback = "좋은 편이지만 개선할 부분이 있어요"
     else:
-        overall_feedback = "연습이 더 필요해요. 피드백을 참고해주세요 📝"
+        overall_feedback = "연습이 더 필요해요. 피드백을 참고해주세요"
 
     results["overall"] = {
         "score": overall_score,
